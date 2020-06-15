@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './question.dart';
+import './answer.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,23 +10,36 @@ class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
-  var question = 0;
-  void answer() {
+class _MyAppState extends State<MyApp> {
+  var _question = 0;
+  void _answer() {
     setState(() {
-        question = question + 1;
+      _question = _question + 1;
     });
-  
-    print(question);
+
+    print(_question);
   }
 
   @override
   Widget build(BuildContext context) {
-    var q = ['what is your name', 'what is your age'];
+    var q = [
+      {
+        'questiontext': 'What is your Color',
+        'answers': ['Black', 'red', 'green', 'white'],
+      },
+      {
+        'questiontext': 'What is your age',
+        'answers': ['18>', '<20', '>20', '>25'],
+      },
+      {
+        'questiontext': 'Who is your favourite singer',
+        'answers': ['karan ', 'aujla', 'geetadimachine', 'ghuraleaala'],
+      },
+    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -32,21 +47,12 @@ class MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Text(
-              q[question],
+            Question(
+              q[_question]['questiontext'],
             ),
-            RaisedButton(
-              child: Text('1 '),
-              onPressed: answer,
-            ),
-            RaisedButton(
-              child: Text('1'),
-              onPressed: answer,
-            ),
-            RaisedButton(
-              child: Text('1'),
-              onPressed: answer,
-            ),
+            ...(q[_question]['answers'] as List<String>).map((answer) {
+              return Answer(_answer, answer);
+            }).toList()
           ],
         ),
       ),
